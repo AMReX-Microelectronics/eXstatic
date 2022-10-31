@@ -2,13 +2,13 @@
 #SBATCH -N 128
 #SBATCH -C gpu
 #SBATCH -G 512
-#SBATCH -J W512C1
+#SBATCH -J EW512C1
 #SBATCH --mail-user=saurabhsawant@lbl.gov
 #SBATCH --mail-type=ALL
-#SBATCH -t 00:01:00
+#SBATCH -t 00:04:00
 #SBATCH -A m3766_g
-#SBATCH -o W512C1.o%j
-#SBATCH -e W512C1.e%j
+#SBATCH -o EW512C1.o%j
+#SBATCH -e EW512C1.e%j
 #SBATCH --reservation=weak_scaling_saurabh
 
 #OpenMP settings:
@@ -18,4 +18,4 @@ export OMP_PROC_BIND=true
 
 #run the application:
 #applications may performance better with --gpu-bind=none instead of --gpu-bind=single:1 
-srun -n 512 -c 32 --cpu_bind=cores -G 512 --gpu-bind=single:1  ./../Bin/main3d.gnu.TPROF.MTMPI.CUDA.GPUCLOCK.ex ../Examples/Tests/weak_scaling/periodicBox_512GPUs
+srun -n 512 -c 32 --cpu_bind=cores -G 512 --gpu-bind=single:1  ./../../Exec/main3d.gnu.MPI.CUDA.ex ../../input/scaling/weak/ppc_512GPUs

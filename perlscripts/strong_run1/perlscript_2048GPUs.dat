@@ -2,13 +2,13 @@
 #SBATCH -N 512
 #SBATCH -C gpu
 #SBATCH -G 2048
-#SBATCH -J S2048C1
+#SBATCH -J ES2048C1
 #SBATCH --mail-user=saurabhsawant@lbl.gov
 #SBATCH --mail-type=ALL
-#SBATCH -t 00:02:00
+#SBATCH -t 00:04:00
 #SBATCH -A m3766_g
-#SBATCH -o S2048C1.o%j
-#SBATCH -e S2048C1.e%j
+#SBATCH -o ES2048C1.o%j
+#SBATCH -e ES2048C1.e%j
 #SBATCH --reservation=weak_scaling_saurabh
 
 #OpenMP settings:
@@ -18,4 +18,4 @@ export OMP_PROC_BIND=true
 
 #run the application:
 #applications may performance better with --gpu-bind=none instead of --gpu-bind=single:1 
-srun -n 2048 -c 32 --cpu_bind=cores -G 2048 --gpu-bind=single:1  srun ./../Bin/main3d.gnu.TPROF.MTMPI.CUDA.GPUCLOCK.ex ../Examples/Tests/strong_scaling/periodicBox_2048GPUs
+srun -n 2048 -c 32 --cpu_bind=cores -G 2048 --gpu-bind=single:1  ./../../Exec/main3d.gnu.MPI.CUDA.ex ../../input/scaling/strong/ppc_2048GPUs

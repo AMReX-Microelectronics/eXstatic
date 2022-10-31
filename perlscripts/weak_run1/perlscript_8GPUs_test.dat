@@ -1,15 +1,16 @@
 #!/bin/bash
-#SBATCH -N 512
+#SBATCH -N 2
 #SBATCH -C gpu
-#SBATCH -G 2048
-#SBATCH -J EW2048C1
+#SBATCH -G 8
+#SBATCH -J EW8C1
+#SBATCH -q regular
 #SBATCH --mail-user=saurabhsawant@lbl.gov
 #SBATCH --mail-type=ALL
-#SBATCH -t 00:04:00
+#SBATCH -t 00:02:00
 #SBATCH -A m3766_g
-#SBATCH -o EW2048C1.o%j
-#SBATCH -e EW2048C1.e%j
-#SBATCH --reservation=weak_scaling_saurabh
+#SBATCH -o W8C1.o%j
+#SBATCH -e W8C1.e%j
+# SBATCH --reservation=weak_scaling_saurabh
 
 #OpenMP settings:
 export OMP_NUM_THREADS=1
@@ -18,4 +19,4 @@ export OMP_PROC_BIND=true
 
 #run the application:
 #applications may performance better with --gpu-bind=none instead of --gpu-bind=single:1 
-srun -n 2048 -c 32 --cpu_bind=cores -G 2048 --gpu-bind=single:1 ./../../Exec/main3d.gnu.MPI.CUDA.ex ../../input/scaling/weak/ppc_4096GPUs
+srun -n 8 -c 32 --cpu_bind=cores -G 8 --gpu-bind=single:1  ./../../Exec/main3d.gnu.MPI.CUDA.ex ../../input/scaling/weak/ppc_8GPUs

@@ -1,0 +1,54 @@
+##################################
+##### USER DEFINED CONSTANTS #####
+##################################
+my_constants.num_gpu = 2048
+my_constants.N = 512
+my_constants.L = 0.2
+my_constants.S = 32
+my_constants.epsilon_0 = 8.8541878128e-12
+#################################
+###### GEOMETRY PROPERTIES ######
+#################################
+domain.n_cell = N N N 
+domain.max_grid_size = S S 64
+domain.blocking_factor = S S 64
+
+domain.prob_lo = -L/2. -L/2. -L/2.
+domain.prob_hi = L/2. L/2. L/2.
+
+domain.is_periodic = 1 1 0
+domain.coord_sys = cartesian 
+#################################
+###### BOUNDARY CONDITIONS ######
+#################################
+boundary.hi = per per dir(10)
+boundary.lo = per per dir(0)
+####################################
+###### MACROSCOPIC PROPERTIES ######
+####################################
+macroscopic.fields_to_define = alpha epsilon charge_density phi 
+macroscopic.ghostcells_for_fields = alpha.0 epsilon.1 charge_density.0 phi.1 
+
+macroscopic.epsilon = epsilon_0
+macroscopic.charge_density = 0.
+macroscopic.phi = 0.
+macroscopic.alpha = 0.
+####################################
+###### MLMG SOLVER PROPERTIES ######
+####################################
+mlmg.ascalar=0
+mlmg.bscalar=1
+
+mlmg.soln   = phi
+mlmg.rhs    = charge_density
+mlmg.alpha  = alpha
+mlmg.beta   = epsilon
+
+mlmg.max_order=2
+mlmg.set_verbose=0
+mlmg.absolute_tolerance=0
+mlmg.relative_tolerance=1e-10
+#############################
+###### POST PROCESSING ######
+#############################
+#post_process.fields_to_process = vecField 
