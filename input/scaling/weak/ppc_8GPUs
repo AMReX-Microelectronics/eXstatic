@@ -5,13 +5,14 @@ my_constants.num_gpu = 8
 my_constants.factor = 1
 my_constants.N = factor*512
 my_constants.L = factor*0.2
+my_constants.S = 256
 my_constants.epsilon_0 = 8.8541878128e-12
 #################################
 ###### GEOMETRY PROPERTIES ######
 #################################
 domain.n_cell = N N N 
-domain.max_grid_size = max_size
-domain.blocking_factor = max_size
+domain.max_grid_size = S S S
+domain.blocking_factor = S S S
 
 domain.prob_lo = -L/2. -L/2. -L/2.
 domain.prob_hi = L/2. L/2. L/2.

@@ -1,7 +1,6 @@
 #include "GeometryProperties.H"
 
 #include "../../Utils/SelectWarpXUtils/WarpXUtil.H"
-//#include "Code.H"
 
 #include <AMReX.H>
 #include <AMReX_ParmParse.H>
@@ -75,8 +74,8 @@ c_GeometryProperties::ParseBasicDomainInput()
 #ifdef PRINT_NAME
     amrex::Print() << "\n\n\t\t\t\t{************************c_GeometryProperties::ParseBasicDomainInput()************************\n";
     amrex::Print() << "\t\t\t\tin file: " << __FILE__ << " at line: " << __LINE__ << "\n";
-    std::string prt = "\t\t\t\t";
 #endif
+    std::string prt = "\t\t\t\t";
 
     amrex::Vector<int> num_cell;
     amrex::Vector<amrex::Real> prob_min(AMREX_SPACEDIM);
@@ -87,20 +86,20 @@ c_GeometryProperties::ParseBasicDomainInput()
     std::string coord_sys_str = "cartesian";
     coord_sys =  amrex::CoordSys::cartesian; //default
 
-    amrex::ParmParse pp_domain("domain");
+    ParmParse pp_domain("domain");
 
     getArrWithParser(pp_domain, "prob_lo", prob_min, 0, AMREX_SPACEDIM);
-    AMREX_ALWAYS_ASSERT(prob_lo.size() == AMREX_SPACEDIM);
+    AMREX_ALWAYS_ASSERT(prob_min.size() == AMREX_SPACEDIM);
 
     getArrWithParser(pp_domain, "prob_hi", prob_max, 0, AMREX_SPACEDIM);
-    AMREX_ALWAYS_ASSERT(prob_hi.size() == AMREX_SPACEDIM);
+    AMREX_ALWAYS_ASSERT(prob_max.size() == AMREX_SPACEDIM);
 
-    pp_domain.getarr("n_cell", num_cell, 0, AMREX_SPACEDIM);
+    getArrWithParser(pp_domain,"n_cell", num_cell, 0, AMREX_SPACEDIM);
     AMREX_ALWAYS_ASSERT(n_cell.size() == AMREX_SPACEDIM);
 
-    pp_domain.queryarr("max_grid_size", mg);
+    queryArrWithParser(pp_domain,"max_grid_size", mg, 0, AMREX_SPACEDIM);
 
-    pp_domain.queryarr("blocking_factor", bf);
+    queryArrWithParser(pp_domain,"blocking_factor", bf, 0, AMREX_SPACEDIM);
 
     pp_domain.queryarr("is_periodic", periodicity);
 
@@ -130,11 +129,12 @@ c_GeometryProperties::ParseBasicDomainInput()
         coord_sys = amrex::CoordSys::RZ;
     }
 
-#ifdef PRINT_LOW
+//#ifdef PRINT_LOW
     for (int i=0; i<AMREX_SPACEDIM; ++i) 
     {
         amrex::Print() << prt << "\n";
         amrex::Print() << prt << "direction: " << i << "\n";
+        amrex::Print() << prt << "n_cell: " << n_cell[i] << "\n";
         amrex::Print() << prt << "prob_lo: " << prob_lo[i] << "\n";
         amrex::Print() << prt << "prob_hi: " << prob_hi[i] << "\n";
         amrex::Print() << prt << "max_grid_size: " << max_grid_size[i] << "\n";
@@ -143,7 +143,7 @@ c_GeometryProperties::ParseBasicDomainInput()
     }
     amrex::Print() << prt << "\n";
     amrex::Print() << prt << "coord_sys: " << coord_sys << "\n";
-#endif
+//#endif
 
 #ifdef PRINT_NAME
     amrex::Print() << "\t\t\t\t}************************c_GeometryProperties::ParseBasicDomainInput()************************\n";
