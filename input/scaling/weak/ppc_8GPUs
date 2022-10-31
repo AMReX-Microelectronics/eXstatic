@@ -1,34 +1,28 @@
 ##################################
 ##### USER DEFINED CONSTANTS #####
 ##################################
-#
-### GEOMETRY PROPERTIES 
-my_constants.Lx = 0.2
-my_constants.Ly = 0.2
-my_constants.Lz = 0.2
-
-### Physical Constants 
+my_constants.num_gpu = 8
+my_constants.factor = 1
+my_constants.N = factor*512
+my_constants.L = factor*0.2
 my_constants.epsilon_0 = 8.8541878128e-12
-#
 #################################
 ###### GEOMETRY PROPERTIES ######
 #################################
-domain.n_cell = 120 120 120
-domain.max_grid_size = 120 120 120
-# domain.blocking_factor = 120 120 120
+domain.n_cell = N N N 
+domain.max_grid_size = max_size
+domain.blocking_factor = max_size
 
-domain.prob_lo = -Lx/2. -Ly/2. -Lz/2.
-domain.prob_hi = Lx/2. Ly/2. Lz/2.
+domain.prob_lo = -L/2. -L/2. -L/2.
+domain.prob_hi = L/2. L/2. L/2.
 
-#domain.is_periodic = 1: yes, 0: no
 domain.is_periodic = 1 1 0
-
 domain.coord_sys = cartesian 
 #################################
 ###### BOUNDARY CONDITIONS ######
 #################################
-boundary.hi = neu neu dir(10)
-boundary.lo = neu neu dir(0)
+boundary.hi = per per dir(10)
+boundary.lo = per per dir(0)
 ####################################
 ###### MACROSCOPIC PROPERTIES ######
 ####################################
@@ -38,6 +32,7 @@ macroscopic.ghostcells_for_fields = alpha.0 epsilon.1 charge_density.0 phi.1
 macroscopic.epsilon = epsilon_0
 macroscopic.charge_density = 0.
 macroscopic.phi = 0.
+macroscopic.alpha = 0.
 ####################################
 ###### MLMG SOLVER PROPERTIES ######
 ####################################
@@ -49,6 +44,7 @@ mlmg.rhs    = charge_density
 mlmg.alpha  = alpha
 mlmg.beta   = epsilon
 
+mlmg.max_order=2
 mlmg.set_verbose=0
 mlmg.absolute_tolerance=0
 mlmg.relative_tolerance=1e-10
